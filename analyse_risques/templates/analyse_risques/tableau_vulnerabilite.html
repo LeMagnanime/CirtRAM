@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>ANALYSE DES RISQUES</title>
+  <style>
+    /* Votre style CSS ici */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      border: 1px solid black;
+      padding: 8px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    input {
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .add-button, .remove-button {
+      display: block;
+      margin-top: 10px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body> 
+
+<h2>Tableau des Vulnérabilités</h2>
+
+{% for asset, form in formulaires %}
+<table>
+  <thead>
+    <tr>
+        <th colspan="9">{{ asset.actif }}</th>
+    </tr>
+    <tr>
+        <th>Vulnérabilité</th>
+        <th>Menaces</th>
+        <th>Risque</th>
+        <th>Probabilité d'occurrence</th>
+        <th>Impact (C)</th>
+        <th>Impact (I)</th>
+        <th>Impact (D)</th>
+        <th>Criticité</th>
+        <th>Action</th>
+    </tr>
+  </thead>
+  <tbody>
+      
+      <tr>
+          <form method="POST">
+            {% csrf_token %}
+            <td>{{ form.Vulnérabilité }}</td>
+            <td>{{ form.Menaces }}</td>
+            <td>{{ form.Risque }}</td>
+            <td>{{ form.Probabilité_occurrence }}</td>
+            <td>{{ form.Impact_C }}</td>
+            <td>{{ form.Impact_I }}</td>
+            <td>{{ form.Impact_D }}</td>
+            <td>{{ form.Criticité }}</td>  
+
+            <td>
+                <button type="submit">Enregistrer</button>
+                <button class="remove-button" onclick="supprimerVulnerabilite(this)">-</button>
+            </td>
+          </form>
+      </tr>
+      <button class="add-button" onClick="ajouterVulnerabilite(${JSON.stringify(actif)})">+</button>
+  </tbody>
+</table>
+{% endfor %}
+
+<div id="vulnerabilities"></div>
+
+
+<button id="okButton" onclick="okClicked()">Ok</button>
+<button id="returnButton" onclick="returnClicked()">Retour</button>
+
+<script>
+   
+</script>
+</body>
+</html>
