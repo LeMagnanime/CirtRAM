@@ -5,225 +5,99 @@
 {% block content %}
 
 <div class="container-fluid">
-    <div class="card shadow mb-4 mt-4">
-        <h2> Formulaire d'enregistrement </h2>
-        <form method="post" class="jumbotron">
-        {% csrf_token %}
-        {{ formset.management_form }}
+<!-- Page Heading --> 
 
-        {% for form in formset %}
-            <div class="formset-form row">
-                <!-- Afficher chaque champ du formulaire ligne par ligne -->
-                <div class="form-field col-1">
-                    {{ form.actif.label_tag }}
-                    {{ form.actif }}
-                </div>
-                <div class="form-field col-2">
-                    {{ form.description.label_tag }}
-                    {{ form.description }}
-                </div>
-                <div class="form-field col-2">
-                    {{ form.Valeur_unitaire_actif.label_tag }}
-                    {{ form.Valeur_unitaire_actif }}
-                </div>
-                <div class="form-field col-2">
-                    {{ form.Cout_installation.label_tag }}
-                    {{ form.Cout_installation }}
-                </div>
-                <div class="form-field col-2">
-                    {{ form.Cout_entretien.label_tag }}
-                    {{ form.Cout_entretien }}
-                </div>
-                <div class="form-field col-1">
-                    {{ form.VA.label_tag }}
-                    {{ form.VA }}
-                </div>
-                <div class="form-field col-2">
-                    {{ form.Valeur_indisponibilité.label_tag }}
-                    {{ form.Valeur_indisponibilité }}
-                </div>
-                <!-- Ajoutez les autres champs ici selon vos besoins -->
-            </div>
-        {% endfor %}
+        <!-- page content -->
+        <div class="card shadow mb-4 mt-4">
+          <div class="card-body mt-3">
+              <div class="planification-menu d-flex justify-content-start mb-2">
+                <a class="btn btn-light btn-sm" href= "" id="btn_planing"><i class="fas fa-calendar"></i> Cartographie des actifs</a>
+                <a class="btn btn-light btn-sm" href="" id="btn_notification"><i class="fas fa-envelope-open-text"></i> Evaluation des vulnérabilités</a>
+                <a class="btn btn-light btn-sm active" href=" " id="btn_depense"><i class="fas fa-tachometer-alt"></i> Dashboard des vulnérablités</a>
+                <a class="btn btn-light btn-sm" href=" " id="btn_recette"><i class="fas fa-chart-line"></i> Prévision des recettes</a>
+                <a class="btn btn-light btn-sm" href=" " id="btn_facturation"><i class="fas fa-file-invoice"></i> Élementes de facturation</a>
+              </div> 
+              <hr>  
+              <div id="table_recette" class="content-table"> 
 
-        <input type="submit" value="Submit">
-        </form>
+                <button type="button" href="" class="btn btn-info text-white btn-sm mr-2 mb-2" data-toggle="modal" data-target="#modalDepense">
+                    <i class="fas fa-plus fa-sm text-white-50"></i> Ajouter un actif
+                </button>
 
-        
-    </div>
+                <form method="post" class="modal fade" id="modalDepense" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                      <div class="modal-content">
+                          <div class="modal-header justify-content-center">
+                          <h5 class="modal-title modal-title-custom">
+                            Identification des actifs
+                          </h5> 
+                          </div>
+                          <div class="modal-body"> 
+                            {% csrf_token %}
+                            <div class="row">
+                                <div class="form-group col-md-12"> 
+                                    {{ form.actif }}
+                                </div>
+                                <div class="form-group col-md-12"> 
+                                    {{ form.description }}
+                                </div>
+                                <div class="form-group col-md-6"> 
+                                    {{ form.valeur_unitaire_actif }}
+                                </div>
+                                <div class="form-group col-md-6"> 
+                                    {{ form.cout_installation }}
+                                </div>
+                                <div class="form-group col-md-4"> 
+                                    {{ form.cout_entretien }}
+                                </div>
+                                <div class="form-group col-md-4"> 
+                                    {{ form.va }}
+                                </div>
+                                <div class="form-group col-md-4"> 
+                                    {{ form.valeur_indisponibilite }}
+                                </div>
+                            </div>
+                            <input type="hidden" name="new_depense" value="1">
+                          </div>
+                          <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button> 
+                            <button type="submit" class="btn btn-success">Valider</button> 
+                          </div>
+                      </div>
+                      </div>
+                  </form>
+
+                <table class="table table-striped" id="dataTable_recette" width="100%"  >
+                    <thead>
+                        <tr>
+                            <th>Actif</th>
+                            <th>Description</th>
+                            <th>Valeur unitaire</th> 
+                            <th>Coût de l'installation</th>
+                            <th>Coût d'entretien</th>
+                            <th>VA</th> 
+                            <th>Valeur de l'indisponibilité</th>
+                        </tr>
+                    </thead> 
+                    <tbody>
+                        {% for actif in actifs %}
+                            <tr>
+                                <td>{{ actif.actif }}</td>
+                                <td>{{ actif.description }}</td>
+                                <td>{{ actif.valeur_unitaire_actif }} FCFA</td>
+                                <td>{{ actif.cout_installation }} FCFA</td>
+                                <td>{{ actif.cout_entretien }} FCFA</td>
+                                <td>{{ actif.va }} FCFA</td>
+                                <td>{{ actif.valeur_indisponibilite }} FCFA</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+              </div> 
+        </div>
+        </div> 
+        <div class="card shadow mb-4 mt-4"> 
+        </div>
     
 </div>
-
-
-<h2>Liste des Actifs IT</h2>
-
-<table id="actiftable2">
-    <thead>
-    <tr>
-        <th colspan="8">ACTIFS EN SUPPORT</th>
-    </tr>
-    <tr>
-        <th>Actif</th>
-        <th>Description</th>
-        <th>Valeur unitaire de l'actif</th>
-        <th>Coût de l'installation</th>
-        <th>Coût de l'entretien</th>
-        <th>VA</th>
-        <th>Valeur d'indisponibilité/jour</th>
-        <th>Action</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr class="actif-row">
-        <td><input type="text"></td>
-        <td><input type="text"></td>
-        <td><input type="number" step="0.01"></td>
-        <td><input type="number" step="0.01"></td>
-        <td><input type="number" step="0.01"></td>
-        <td><input type="number" step="0.01"></td>
-        <td><input type="number" step="0.01"></td>
-        <td><button class="remove-button" onclick="supprimerActif(this)">-</button></td>
-    </tr>
-    </tbody>
-</table>
-
-<button class="add-button" onclick="openModal()">+</button>
-
-<div id="myModal" class="modal">
-    <div class="modal-content">
-        <h3>Sélectionnez les actifs à ajouter :</h3>
-        <h4>ACTIFS EN SUPPORTS :</h4>
-        <label class="checkbox-label"><input type="checkbox" value="Ordinateurs laptop">Ordinateurs laptop</label>
-        <label class="checkbox-label"><input type="checkbox" value="Ordinateurs desktop">Ordinateurs desktop</label>
-        <label class="checkbox-label"><input type="checkbox" value="Appareils mobiles téléphones">Appareils mobiles téléphones</label>
-        <label class="checkbox-label"><input type="checkbox" value="Tablettes">Tablettes</label>
-        <label class="checkbox-label"><input type="checkbox" value="Serveurs">Serveurs</label>
-        <label class="checkbox-label"><input type="checkbox" value="Imprimantes">Imprimantes</label>
-        <label class="checkbox-label"><input type="checkbox" value="Scanners">Scanners</label>
-        <label class="checkbox-label"><input type="checkbox" value="Routeurs">Routeurs</label>
-        <label class="checkbox-label"><input type="checkbox" value="Commutateurs (Switches)">Commutateurs (Switches)</label>
-        <label class="checkbox-label"><input type="checkbox" value="Pare-feu (Firewalls)">Pare-feu (Firewalls)</label>
-        <label class="checkbox-label"><input type="checkbox" value="Disques durs externes">Disques durs externes</label>
-        <label class="checkbox-label"><input type="checkbox" value="Clés USB">Clés USB</label>
-        <label class="checkbox-label"><input type="checkbox" value="Écrans (moniteurs)">Écrans (moniteurs)</label>
-        <label class="checkbox-label"><input type="checkbox" value="Claviers">Claviers</label>
-        <label class="checkbox-label"><input type="checkbox" value="Souris">Souris</label>
-        <label class="checkbox-label"><input type="checkbox" value="Casques et écouteurs">Casques et écouteurs</label>
-        <label class="checkbox-label"><input type="checkbox" value="Webcams">Webcams</label>
-        <label class="checkbox-label"><input type="checkbox" value="Microphones">Microphones</label>
-        <h4>ACTIFS PRIMORDIAUX :</h4>
-        <label class="checkbox-label"><input type="checkbox" value="Données sensibles">Données sensibles</label>
-        <label class="checkbox-label"><input type="checkbox" value="Serveurs de production">Serveurs de production</label>
-        <label class="checkbox-label"><input type="checkbox" value="Applications critiques">Applications critiques</label>
-        <label class="checkbox-label"><input type="checkbox" value="Réseau principal">Réseau principal</label>
-        <label class="checkbox-label"><input type="checkbox" value="Accès physiques">Accès physiques</label>
-        <label class="checkbox-label"><input type="checkbox" value="Services essentiels">Services essentiels</label>
-        <label class="checkbox-label"><input type="checkbox" value="Stock de sécurité">Stock de sécurité</label>
-
-        <button onclick="ajouterActifs()">Ajouter</button>
-    </div>
-</div>
-
-
-<h5>Mon actif ne figure pas dans la liste proposée:</h5>
-<button class="add-button" onclick="ajouterActif('actiftable2')">Ajouter une ligne vide</button>
-<div align="right">
-<button onclick="enregistrerEtContinuer()">OK</button>
-<button onclick="retourALogin()">Retour</button>
-</div>
-
-<script src="{% static 'js/bundle.js' %}"></script>
-
-<script>
-    var modal = document.getElementById("myModal");
-
-    function openModal() {
-        modal.style.display = "block";
-    }
-    function ajouterActifs() {
-        var table = document.getElementById("actiftable2").getElementsByTagName('tbody')[0];
-        var checkboxes = document.querySelectorAll('#myModal input[type="checkbox"]:checked');
-
-        checkboxes.forEach(function (checkbox) {
-            var newRow = table.insertRow(-1);
-        newRow.innerHTML = '<td>' + checkbox.value + '</td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><button class="remove-button" onclick="supprimerActif(this)">-</button></td>';
-    });
-        modal.style.display = "none";
-    }
-
-    window.onclick = function (event) {
-        if (event.target == modal) {
-            modal.style.display = "none";
-        }
-    }
-
-    function ajouterActif(tableId) {
-        var table = document.getElementById(tableId).getElementsByTagName('tbody')[0];
-        var newRow = table.insertRow(-1);
-        newRow.className = "actif-row";
-        newRow.innerHTML = '<td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><input type="text"></td><td><button class="remove-button" onclick="supprimerActif(this)">-</button></td>';
-    }
-    function supprimerActif(button) {
-        var row = button.parentNode.parentNode;
-        row.parentNode.removeChild(row);
-    }
-
-
-    function enregistrerEtContinuer(row) {
-       /** Code pour enregistrer les données dans la base de données
-        var inputs = row.getElementsByTagName("input");
-        var actif = inputs[0].value; // Nom de l'actif
-        var description = inputs[1].value; // Description de l'actif
-        var valeurUnitaire = inputs[2].value; // Valeur unitaire
-        var coutInstallation = inputs[3].value; // Coût d'installation
-        var coutEntretien = inputs[4].value; // Coût d'entretien
-        var va = inputs[5].value; // VA
-        var valeurIndisponibilite = inputs[6].value; // Valeur d'indisponibilité/jour
-
-        // Envoi des données à la base de données (requête AJAX ou autre)
-        // Exemple simplifié pour une requête AJAX
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "url_de_votre_api_pour_enregistrer_les_donnees", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Réponse de la base de données
-                console.log(xhr.responseText);
-            }
-        };
-        xhr.send(JSON.stringify({actif: actif, description: description, valeurUnitaire: valeurUnitaire, coutInstallation: coutInstallation, coutEntretien: coutEntretien, va: va, valeurIndisponibilite: valeurIndisponibilite}));
-    }**/
-        // Rediriger vers la page du tableau des vulnérabilités
-        window.location.href = "tableau_vulnerabilite.html";
-    }
-
-    function retourALogin() {
-        // Code pour retourner à la page de login
-        window.location.href = "login.html";
-    }
-    // Fonction pour enregistrer les données dans la base de données (exemple simplifié)
-    function enregistrerDonnees(row) {
-        var inputs = row.getElementsByTagName("input");
-        var actif = inputs[0].value; // Nom de l'actif
-        var description = inputs[1].value; // Description de l'actif
-        var valeurUnitaire = inputs[2].value; // Valeur unitaire
-        var coutInstallation = inputs[3].value; // Coût d'installation
-        var coutEntretien = inputs[4].value; // Coût d'entretien
-        var va = inputs[5].value; // VA
-        var valeurIndisponibilite = inputs[6].value; // Valeur d'indisponibilité/jour
-
-        // Envoi des données à la base de données (requête AJAX ou autre)
-        // Exemple simplifié pour une requête AJAX
-        var xhr = new XMLHttpRequest();
-        xhr.open("POST", "url_de_votre_api_pour_enregistrer_les_donnees", true);
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                // Réponse de la base de données
-                console.log(xhr.responseText);
-            }
-        };
-        xhr.send(JSON.stringify({actif: actif, description: description, valeurUnitaire: valeurUnitaire, coutInstallation: coutInstallation, coutEntretien: coutEntretien, va: va, valeurIndisponibilite: valeurIndisponibilite}));
-    }
-</script>
 {% endblock %}
