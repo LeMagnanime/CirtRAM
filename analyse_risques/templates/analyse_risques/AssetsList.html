@@ -1,114 +1,58 @@
+{% extends 'analyse_risques/main.html' %}
+
 {%  load static %}
 
+{% block content %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>Tableau des Actifs IT</title>
-    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
-    <style>
-        /* Styles CSS */
+<div class="container-fluid">
+    <div class="card shadow mb-4 mt-4">
+        <h2> Formulaire d'enregistrement </h2>
+        <form method="post" class="jumbotron">
+        {% csrf_token %}
+        {{ formset.management_form }}
 
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        th, td {
-            border: 1px solid black;
-            padding: 8px;
-            text-align: left;
-        }
-
-        th {
-            background-color: #f2f2f2;
-        }
-
-        tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        input {
-            width: 100%;
-            box-sizing: border-box;
-        }
-
-        .add-button, .remove-button {
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-        }
-
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 1;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.4);
-        }
-
-        .modal-content {
-            background-color: #fefefe;
-            margin: 15% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-        }
-
-        .checkbox-label {
-            display: block;
-            margin-bottom: 10px;
-        }
-    </style>
-</head>
-<body>
-<h2> Formulaire d'enregistrement </h2>
-<form method="post" class="jumbotron">
-    {% csrf_token %}
-    {{ formset.management_form }}
-
-    {% for form in formset %}
-        <div class="formset-form row">
-            <!-- Afficher chaque champ du formulaire ligne par ligne -->
-            <div class="form-field col-1">
-                {{ form.actif.label_tag }}
-                {{ form.actif }}
+        {% for form in formset %}
+            <div class="formset-form row">
+                <!-- Afficher chaque champ du formulaire ligne par ligne -->
+                <div class="form-field col-1">
+                    {{ form.actif.label_tag }}
+                    {{ form.actif }}
+                </div>
+                <div class="form-field col-2">
+                    {{ form.description.label_tag }}
+                    {{ form.description }}
+                </div>
+                <div class="form-field col-2">
+                    {{ form.Valeur_unitaire_actif.label_tag }}
+                    {{ form.Valeur_unitaire_actif }}
+                </div>
+                <div class="form-field col-2">
+                    {{ form.Cout_installation.label_tag }}
+                    {{ form.Cout_installation }}
+                </div>
+                <div class="form-field col-2">
+                    {{ form.Cout_entretien.label_tag }}
+                    {{ form.Cout_entretien }}
+                </div>
+                <div class="form-field col-1">
+                    {{ form.VA.label_tag }}
+                    {{ form.VA }}
+                </div>
+                <div class="form-field col-2">
+                    {{ form.Valeur_indisponibilité.label_tag }}
+                    {{ form.Valeur_indisponibilité }}
+                </div>
+                <!-- Ajoutez les autres champs ici selon vos besoins -->
             </div>
-            <div class="form-field col-2">
-                {{ form.description.label_tag }}
-                {{ form.description }}
-            </div>
-            <div class="form-field col-2">
-                {{ form.Valeur_unitaire_actif.label_tag }}
-                {{ form.Valeur_unitaire_actif }}
-            </div>
-            <div class="form-field col-2">
-                {{ form.Cout_installation.label_tag }}
-                {{ form.Cout_installation }}
-            </div>
-            <div class="form-field col-2">
-                {{ form.Cout_entretien.label_tag }}
-                {{ form.Cout_entretien }}
-            </div>
-            <div class="form-field col-1">
-                {{ form.VA.label_tag }}
-                {{ form.VA }}
-            </div>
-            <div class="form-field col-2">
-                {{ form.Valeur_indisponibilité.label_tag }}
-                {{ form.Valeur_indisponibilité }}
-            </div>
-            <!-- Ajoutez les autres champs ici selon vos besoins -->
-        </div>
-    {% endfor %}
+        {% endfor %}
 
-    <input type="submit" value="Submit">
-</form>
+        <input type="submit" value="Submit">
+        </form>
+
+        
+    </div>
+    
+</div>
 
 
 <h2>Liste des Actifs IT</h2>
@@ -282,6 +226,4 @@
         xhr.send(JSON.stringify({actif: actif, description: description, valeurUnitaire: valeurUnitaire, coutInstallation: coutInstallation, coutEntretien: coutEntretien, va: va, valeurIndisponibilite: valeurIndisponibilite}));
     }
 </script>
-
-</body>
-</html>
+{% endblock %}
