@@ -11,11 +11,9 @@
         <div class="card shadow mb-4 mt-4">
           <div class="card-body mt-3">
               <div class="planification-menu d-flex justify-content-start mb-2">
-                <a class="btn btn-light btn-sm" href= "" id="btn_planing"><i class="fas fa-calendar"></i> Cartographie des actifs</a>
-                <a class="btn btn-light btn-sm" href="" id="btn_notification"><i class="fas fa-envelope-open-text"></i> Evaluation des vulnérabilités</a>
-                <a class="btn btn-light btn-sm active" href=" " id="btn_depense"><i class="fas fa-tachometer-alt"></i> Dashboard des vulnérablités</a>
-                <a class="btn btn-light btn-sm" href=" " id="btn_recette"><i class="fas fa-chart-line"></i> Prévision des recettes</a>
-                <a class="btn btn-light btn-sm" href=" " id="btn_facturation"><i class="fas fa-file-invoice"></i> Élementes de facturation</a>
+                <a class="btn btn-light btn-sm ml-1" href= "" id="btn_planing"><i class="fas fa-calendar"></i> Cartographie des actifs</a>
+                <a class="btn btn-light btn-sm ml-1" href="" id="btn_notification"><i class="fas fa-envelope-open-text"></i> Evaluation des vulnérabilités</a>
+                <a class="btn btn-light btn-sm ml-1" href=" " id="btn_depense"><i class="fas fa-tachometer-alt"></i> Dashboard des vulnérablités</a> 
               </div> 
               <hr>  
               <div id="table_recette" class="content-table"> 
@@ -36,24 +34,31 @@
                             {% csrf_token %}
                             <div class="row">
                                 <div class="form-group col-md-12"> 
+                                    <label for="{{ form.actif.id_for_label }}">Type d'actif</label>
                                     {{ form.actif }}
                                 </div>
                                 <div class="form-group col-md-12"> 
+                                    <label for="{{ form.description.id_for_label }}">Description</label>
                                     {{ form.description }}
                                 </div>
                                 <div class="form-group col-md-6"> 
+                                    <label for="{{ form.valeur_unitaire_actif.id_for_label }}">Valeur unitaire</label>
                                     {{ form.valeur_unitaire_actif }}
                                 </div>
                                 <div class="form-group col-md-6"> 
+                                    <label for="{{ form.cout_installation.id_for_label }}">Coût d'installation</label>
                                     {{ form.cout_installation }}
                                 </div>
                                 <div class="form-group col-md-4"> 
+                                    <label for="{{ form.cout_entretien.id_for_label }}">Coût d'entretien</label>
                                     {{ form.cout_entretien }}
                                 </div>
                                 <div class="form-group col-md-4"> 
+                                    <label for="{{ form.va.id_for_label }}">Valeur de l'actif</label>
                                     {{ form.va }}
                                 </div>
                                 <div class="form-group col-md-4"> 
+                                    <label for="{{ form.valeur_indisponibiliteid_for_label }}">Valeur indisponibilité</label>
                                     {{ form.valeur_indisponibilite }}
                                 </div>
                             </div>

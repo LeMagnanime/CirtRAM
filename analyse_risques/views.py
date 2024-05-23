@@ -7,20 +7,23 @@ from django.contrib import messages
 
 # Create your views here.
 def home(request):
-    AssetFormSet = modelformset_factory(Asset, form=forms.AssetForm, extra=2)
+    form = forms.AssetForm()
+    actifs = Asset.objects.all()
     message = ""
+    errors = ''
     if request.method == 'POST':
-        formset = AssetFormSet(request.POST, queryset=Asset.objects.none())
-        if formset.is_valid():
-            formset.save()
+        form = forms.AssetForm(request.POST)
+        if form.is_valid():
+            form.save()
             message = "Les actifs ont bien été enregistré"
             messages.success(request, message)
             return redirect('home')
     else:
-        formset = AssetFormSet(queryset=Asset.objects.none())
+        errors = form.errors
         
     context = {
-        'formset': formset,
+        'form': form,
+        'actifs': actifs
     }
         
     return render(request, "analyse_risques/AssetsList.html", context)
