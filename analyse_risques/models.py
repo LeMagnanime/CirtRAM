@@ -13,7 +13,8 @@ class TypeActif(models.Model):
 class Asset(models.Model):
     class Meta:
         verbose_name = "Actif"
-    actif = models.ForeignKey(TypeActif, on_delete=models.CASCADE)
+    type_actif = models.ForeignKey(TypeActif, on_delete=models.CASCADE)
+    nom_actif = models.CharField(max_length=200)
     description = models.CharField(max_length=200)
     valeur_unitaire_actif = models.IntegerField()
     cout_installation = models.IntegerField()
@@ -22,7 +23,7 @@ class Asset(models.Model):
     valeur_indisponibilite = models.IntegerField()
     
     def __str__(self):
-        return f"{self.actif}"
+        return f"{self.nom_actif}"
 
 
 class Vunlerabilite(models.Model):

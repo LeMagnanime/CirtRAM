@@ -9,7 +9,8 @@ class AssetForm(ModelForm):
         fields = '__all__'
 
         widgets = {  
-                'actif' : forms.Select(attrs={'class':'form-control'}),
+                'nom_actif' : forms.TextInput(attrs={'class':'form-control'}),
+                'type_actif' : forms.Select(attrs={'class':'form-control'}),
                 'description': forms.TextInput(attrs={'class':'form-control'}),
                 'valeur_unitaire_actif': forms.NumberInput(attrs={'class':'form-control'}),
                 'cout_installation': forms.NumberInput(attrs={'class':'form-control'}),
