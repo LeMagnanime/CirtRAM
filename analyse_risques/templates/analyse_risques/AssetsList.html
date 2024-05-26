@@ -10,15 +10,11 @@
         <!-- page content -->
         <div class="card shadow mb-4 mt-4">
           <div class="card-body mt-3">
-              <div class="planification-menu d-flex justify-content-start mb-2">
-                <a class="btn btn-light btn-sm ml-1" href= "" id="btn_planing"><i class="fas fa-calendar"></i> Cartographie des actifs</a>
-                <a class="btn btn-light btn-sm ml-1" href="" id="btn_notification"><i class="fas fa-envelope-open-text"></i> Evaluation des vulnérabilités</a>
-                <a class="btn btn-light btn-sm ml-1" href=" " id="btn_depense"><i class="fas fa-tachometer-alt"></i> Dashboard des vulnérablités</a> 
-              </div> 
+              {% include 'analyse_risques/navigation.html' %}
               <hr>  
               <div id="table_recette" class="content-table"> 
 
-                <button type="button" href="" class="btn btn-info text-white btn-sm mr-2 mb-2" data-toggle="modal" data-target="#modalDepense">
+                <button type="button" href="" class="btn btn-primary text-white btn-sm mr-2 mb-2" data-toggle="modal" data-target="#modalDepense">
                     <i class="fas fa-plus fa-sm text-white-50"></i> Ajouter un actif
                 </button>
 
@@ -27,7 +23,7 @@
                       <div class="modal-content">
                           <div class="modal-header justify-content-center">
                           <h5 class="modal-title modal-title-custom">
-                            Identification des actifs
+                            Ajout d'un actif
                           </h5> 
                           </div>
                           <div class="modal-body"> 
@@ -76,7 +72,7 @@
                       </div>
                   </form>
 
-                <table class="table table-striped" id="dataTable_recette" width="100%"  >
+                <table class="table table-sm table-striped dataTable_actif" width="100%">
                     <thead>
                         <tr>
                             <th>Nom</th>
@@ -87,6 +83,7 @@
                             <th>Coût d'entretien</th>
                             <th>VA</th> 
                             <th>Valeur de l'indisponibilité</th>
+                            <th></th>
                         </tr>
                     </thead> 
                     <tbody>
@@ -100,15 +97,137 @@
                                 <td>{{ actif.cout_entretien }} FCFA</td>
                                 <td>{{ actif.va }} FCFA</td>
                                 <td>{{ actif.valeur_indisponibilite }} FCFA</td>
+                                <td>
+                                    <div class="d-flex justify-content-center">
+                                        <a href=" " class="btn btn-info btn-sm mr-2">
+                                            <i class="fas fa-info-circle"></i>
+                                        </a>
+
+                                        <a type="button" href="" class="btn btn-success btn-sm mr-2" data-toggle="modal" data-target="#exampleModal-{{ item.structure.id }}">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+
+                                        <div class="modal fade" id="exampleModal-{{ item.structure.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <form method="post" class="modal-dialog modal-dialog-centered modal-lg" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header justify-content-center">
+                                                <h5 class="modal-title modal-title-custom" id="exampleModalLabel">Modification de l'actif : <small>{{ item.structure.nom }}</small></h5> 
+                                                </div> 
+                                                <div class="modal-body"> 
+                                                    {% csrf_token %}
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-8">
+                                                            {{ item.edit_form.nom.label_tag }} 
+                                                            {{ item.edit_form.nom }}
+                                                            {% if item.edit_form.errors %}
+                                                                <div class="dange">
+                                                                    {{ item.edit_form.errors.nom }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            {{ item.edit_form.sigle.label_tag }}
+                                                            {{ item.edit_form.sigle }}
+                                                        </div>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        {{ item.edit_form.categorie.label_tag }}
+                                                        {{ item.edit_form.categorie }}
+                                                        {% if item.edit_form.errors.categorie %}
+                                                            <div class="text-danger">
+                                                                {{ item.edit_form.errors.categorie }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-group"> 
+                                                        {{ item.edit_form.description.label_tag }}
+                                                        {{ item.edit_form.description }}
+                                                    </div>
+                                                    <div class="form-group"> 
+                                                        {{ item.edit_form.adresse.label_tag }}
+                                                        {{ item.edit_form.adresse }}
+                                                        {% if item.edit_form.errors.adresse %}
+                                                            <div class="text-danger">
+                                                                {{ item.edit_form.errors.adresse }}
+                                                            </div>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="form-row">
+                                                        <div class="form-group col-md-4"> 
+                                                            {{ item.edit_form.email.label_tag }}
+                                                            {{ item.edit_form.email }}
+                                                        </div>
+                                                        <div class="form-group col-md-4">
+                                                            {{ item.edit_form.telephone.label_tag }}
+                                                            {{ item.edit_form.telephone }}
+                                                            {% if item.edit_form.errors.telephone %}
+                                                                <div class="text-danger">
+                                                                    {{ item.edit_form.errors.telephone }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div> 
+                                                        <div class="form-group col-md-4">
+                                                            {{ item.edit_form.photo.label_tag }}
+                                                            {{ item.edit_form.photo }}
+                                                            {% if item.edit_form.errors.photo %}
+                                                                <div class="text-danger">
+                                                                    {{ item.edit_form.errors.photo }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                        <input type="hidden" name="structure_{{ item.structure.pk }}" value="1">
+                                                        <input type="hidden" name="edit_structure" value="1">
+                                                    </div> 
+                                                </div>
+                                                <div class="modal-footer">
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Annuler</button>
+                                                <button type="submit" class="btn btn-success">Enregistrer</button>
+                                                </div>
+                                            </div>
+                                            </form>
+                                        </div>
+
+
+                                        <a type="button" href="" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#modaldelete-{{ item.structure.id }}">
+                                            <i class="fas fa-trash"></i>
+                                        </a>
+
+
+                                        <form method="post" class="modal fade" id="modaldelete-{{ item.structure.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog modal-dialog-centered modal" role="document">
+                                              <div class="modal-content">
+                                                <div class="modal-header justify-content-center">
+                                                  <h5 class="modal-title modal-title-custom">
+                                                     Suppréssion de l'actif : <small style="font-style: italic;">{{ item.structure.nom }}</small>
+                                                  </h5> 
+                                                </div>
+                                                <div class="modal-body"> 
+                                                    {% csrf_token %}
+                                                    <p>Voulez-vous vraiment supprimer la structure <span style="color:rgb(61, 61, 255)">«{{ item.structure.nom }}»</span> ?</p>
+                                                    {{ item.delete_form }}
+                                                    <input type="hidden" name="structure_{{ item.structure.pk }}" value="1">
+                                                    <input type="hidden" name="delete_structure" value="1">
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="submit" class="btn btn-success">valider</button> 
+                                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button> 
+                                                </div>
+                                              </div>
+                                            </div>
+                                        </form>
+
+                                    </div>
+                                </td>
                             </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                <br><br>
+                <a type="button" href="{% url 'vulnerabilite' %}" class="btn btn-info btn-sm">Analyse des risques <i class="fas fa-arrow-right"></i>
+                </a type="button">
               </div> 
         </div>
-        </div> 
-        <div class="card shadow mb-4 mt-4"> 
-        </div>
+        </div>  
     
 </div>
 {% endblock %}

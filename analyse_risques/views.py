@@ -50,7 +50,7 @@ def vulnerabilite(request):
         'formulaires': formulaires
     }
     
-    return render(request, "analyse_risques/tableau_vulnerabilite.html", context)
+    return render(request, "analyse_risques/analyse.html", context)
 
 def exemple(request):
     return render(request, "exemple.html")

@@ -1,0 +1,88 @@
+{% extends 'analyse_risques/main.html' %}
+
+{% block content %}
+ <style>
+    .card-body{
+      max-height: 600px;
+      overflow: auto;
+    }
+ </style>
+
+<div class="container-fluid">
+  <!-- Page Heading --> 
+  
+          <!-- page content -->
+          <div class="card shadow mb-4 mt-4">
+            <div class="card-body mt-3">
+                {% include 'analyse_risques/navigation.html' %} 
+                <hr>  
+                <div id="table_recette" class="content-table"> 
+                  
+                  {% for asset in actifs %}
+                  <table class="table table-sm dataTable_actif">
+                    <thead class="thead-dark">
+                      <tr>
+                          <th colspan="9">{{ asset.nom_actif }}</th>
+                      </tr>
+                      <tr>
+                          <th>Vulnérabilité</th>
+                          <th>Menaces</th>
+                          <th>Risque</th>
+                          <th>Probabilité d'occurrence</th>
+                          <th>Impact (C)</th>
+                          <th>Impact (I)</th>
+                          <th>Impact (D)</th>
+                          <th>Criticité</th>
+                          <th></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr>
+                            <form method="POST">
+                              {% csrf_token %}
+                              <td>{{ form.Vulnérabilité }}</td>
+                              <td>{{ form.Menaces }}</td>
+                              <td>{{ form.Risque }}</td>
+                              <td>{{ form.Probabilité_occurrence }}</td>
+                              <td>{{ form.Impact_C }}</td>
+                              <td>{{ form.Impact_I }}</td>
+                              <td>{{ form.Impact_D }}</td>
+                              <td>{{ form.Criticité }}</td>   
+                              <td>
+                                <!-- <a type="button" href="" class="btn btn-danger btn-sm mr-2" data-toggle="modal" data-target="#modaldelete-{{ item.structure.id }}">
+                                  <i class="fas fa-trash"></i>
+                              </a> --> 
+                              </td>
+                            </form>
+                        </tr> 
+
+                        <tr>
+                           
+                            <td> <button class="btn btn-sm btn-primary"> <i class="fas fa-plus"></i></button> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>
+                            <td> </td>  
+                
+                            <td>
+                              
+                            </td> 
+                      </tr> 
+                    </tbody>
+                  </table>
+                  {% endfor %}
+                  <br><br>
+                  <a type="button" href="{% url 'vulnerabilite' %}" class="btn btn-info btn-sm">Analyse des risques <i class="fas fa-arrow-right"></i>
+                  </a type="button">
+                </div> 
+            </div>
+          </div>  
+      
+</div>
+  
+
+{% endblock %}
