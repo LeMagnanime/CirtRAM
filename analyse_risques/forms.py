@@ -21,6 +21,6 @@ class AssetForm(ModelForm):
 
 class AnalyseForm(ModelForm):
     class Meta:
-        model = Analyse
+        model = EvaluationRisque
         fields = '__all__'
            
