@@ -30,24 +30,20 @@ def home(request):
 
 def vulnerabilite(request):
     actifs = Asset.objects.all()
-    formulaires = []
-    
-    for actif in actifs:
-        form = forms.AnalyseForm(initial={'actif': actif})
-        formulaires.append((actif, form))
-    
-    if request.method == 'POST':
-        for actif, form in formulaires:
-            form = forms.AnalyseForm(request.POST, initial={'actif': actif})
-            if form.is_valid():
-                form.save()
-                return redirect('vulnerabilite')
-            else:
-                form.errors
-    
+    form = forms.AnalyseForm()
+
+    if request.method == 'POST': 
+        form = forms.AnalyseForm(request.POST)
+        if form.is_valid():
+            evaluation = form.save(commit=False) 
+            evaluation.save()
+            return redirect('vulnerabilite')
+        else:
+            print(form.errors)
+
     context = {
-        'actifs':actifs,
-        'formulaires': formulaires
+        'actifs': actifs,
+        'form': form,
     }
     
     return render(request, "analyse_risques/analyse.html", context)

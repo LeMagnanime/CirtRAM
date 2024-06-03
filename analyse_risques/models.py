@@ -55,10 +55,10 @@ class EvaluationRisque(models.Model):
     vulnerabilite = models.ForeignKey(Vunlerabilite, on_delete=models.CASCADE) 
     risque = models.CharField(max_length=200)
     probabilite_occurrence = models.FloatField()
-    impact_c = models.FloatField(max_length=200)
-    impact_i = models.FloatField(max_length=200)
-    impact_d = models.FloatField(max_length=200)
-    criticite = models.FloatField(max_length=200)
+    impact_c = models.IntegerField()
+    impact_i = models.IntegerField()
+    impact_d = models.IntegerField()
+    criticite = models.IntegerField()
 
     def __str__(self):
-        return self.actif
+        return f"{self.actif}"
