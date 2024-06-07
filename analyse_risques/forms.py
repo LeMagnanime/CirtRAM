@@ -22,15 +22,12 @@ class AssetForm(ModelForm):
 class AnalyseForm(ModelForm):
     class Meta:
         model = EvaluationRisque
-        fields = ('actif', 'menaces', 'vulnerabilite', 'probabilite_occurrence', 'impact_c', 'impact_i', 'impact_d', 'criticite')
+        fields = ('actif', 'menaces', 'vulnerabilite', 'probabilite_occurrence', 'facteur_exposition')
            
         widgets = {  
             'actif' : forms.Select(attrs={'class':'form-control'}),
             'menaces' : forms.Select(attrs={'class':'form-control'}),
             'vulnerabilite': forms.Select(attrs={'class':'form-control'}),
-            'probabilite_occurrence' : forms.NumberInput(attrs={'class':'form-control'}),
-            'impact_c' : forms.NumberInput(attrs={'class':'form-control'}),
-            'impact_i' : forms.NumberInput(attrs={'class':'form-control'}),
-            'impact_d' : forms.NumberInput(attrs={'class':'form-control'}),
-            'criticite' : forms.NumberInput(attrs={'class':'form-control'}),
+            'probabilite_occurrence' : forms.NumberInput(attrs={'class':'form-control'}), 
+            'facteur_exposition' : forms.NumberInput(attrs={'class':'form-control'}),
         }

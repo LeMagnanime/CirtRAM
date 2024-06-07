@@ -22,17 +22,18 @@
                   <table class="table table-sm dataTable_actif">
                     <thead class="thead-dark">
                       <tr>
-                          <th colspan="9">{{ asset.nom_actif }}</th>
+                          <th colspan="11">{{ asset.nom_actif }}</th>
                       </tr>
                       <tr>
                           <th>Vulnérabilité</th>
                           <th>Menaces</th>
                           <th>Risque</th>
-                          <th>Probabilité d'occurrence</th>
+                          <th>Facteur d'exposition</th>
+                          <th>SLE</th>
+                          <th>Probabilité d'occurrence(ARO)</th>
                           <th>Impact (C)</th>
                           <th>Impact (I)</th>
-                          <th>Impact (D)</th>
-                          <th>Criticité</th>
+                          <th>Impact (D)</th> 
                           <th></th>
                       </tr>
                     </thead>
@@ -43,12 +44,30 @@
                           <td>{{ evaluation.vulnerabilite }}</td>
                           <td>{{ evaluation.menaces }}</td>
                           <td>{{ evaluation.risque }}</td>
+                          <td>{{ evaluation.facteur_exposition }} %</td>
+                          <td>{{ evaluation.sle }}</td>
                           <td>{{ evaluation.probabilite_occurrence }}</td>
-                          <td>{{ evaluation.impact_c }}</td>
-                          <td>{{ evaluation.impact_i }}</td>
-                          <td>{{ evaluation.impact_d }}</td>
-                          <td>{{ evaluation.criticite }}</td>
-                          <td></td>
+                          <td>
+                            {% if evaluation.impact_c %}
+                              {{ evaluation.impact_c }}
+                            {% else %}
+                              -
+                            {% endif %}
+                          </td>
+                          <td>
+                            {% if evaluation.impact_i %}
+                              {{ evaluation.impact_i }}
+                            {% else %}
+                              -
+                            {% endif %}
+                          </td>
+                          <td>
+                            {% if evaluation.impact_d %}
+                              {{ evaluation.impact_d }}
+                            {% else %}
+                              -
+                            {% endif %}
+                          </td>  
                       </tr>
                       {% endfor %}
                     </tbody>
@@ -90,23 +109,11 @@
                                       <div class="form-group col-md-6"> 
                                           <label for="{{ form.probabilite_occurrence.id_for_label }}">Probabilité d'occurrence</label>
                                           {{ form.probabilite_occurrence }}
-                                      </div>
-                                      <div class="form-group col-md-4"> 
-                                          <label for="{{ form.impact_c.id_for_label }}">Impact confidentialité</label>
-                                          {{ form.impact_c }}
-                                      </div>
-                                      <div class="form-group col-md-4"> 
-                                          <label for="{{ form.impact_i.id_for_label }}">Impact intégrité</label>
-                                          {{ form.impact_i }}
-                                      </div>
-                                      <div class="form-group col-md-4"> 
-                                          <label for="{{ form.impact_d.id_for_label }}">Impact disponibilité</label>
-                                          {{ form.impact_d }}
-                                      </div>
+                                      </div> 
                                       <div class="form-group col-md-12"> 
-                                          <label for="{{ form.criticite.id_for_label }}">Criticité</label>
-                                          {{ form.criticite }}
-                                      </div>
+                                          <label for="{{ form.facteur_exposition.id_for_label }}">Facteur d'exposition</label>
+                                          {{ form.facteur_exposition }}
+                                      </div> 
                                   </div>
                                     <input type="hidden" name="actif_{{ asset.pk }}" value="1"> 
                                 </div>
